@@ -11,6 +11,7 @@
 #import "MWZoomingScrollView.h"
 #import "MBProgressHUD.h"
 #import "SDImageCache.h"
+#import "UIUtils.h"
 
 #define SYSTEM_VERSION_EQUAL_TO(v)                  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedSame)
 #define SYSTEM_VERSION_GREATER_THAN(v)              ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedDescending)
@@ -1129,7 +1130,7 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
 
 - (void)actuallyEmailPhoto:(id<MWPhoto>)photo {
     if ([photo underlyingImage]) {
-        MFMailComposeViewController *emailer = [[MFMailComposeViewController alloc] init];
+        MFMailComposeViewController *emailer = [UIUtils createMFMailComposeViewController];
         emailer.mailComposeDelegate = self;
         [emailer setSubject:NSLocalizedString(@"Photo", nil)];
         [emailer addAttachmentData:UIImagePNGRepresentation([photo underlyingImage]) mimeType:@"png" fileName:@"Photo.png"];
@@ -1137,7 +1138,7 @@ navigationBarBackgroundImageLandscapePhone = _navigationBarBackgroundImageLandsc
             emailer.modalPresentationStyle = UIModalPresentationPageSheet;
         }
         [self presentModalViewController:emailer animated:YES];
-        [emailer release];
+        //[emailer release];
         [self hideProgressHUD:NO];
     }
 }
